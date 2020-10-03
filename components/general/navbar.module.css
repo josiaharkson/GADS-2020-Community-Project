@@ -1,0 +1,26 @@
+.nav {
+  padding: 20px 40px;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+}
+
+.spacer {
+  height: 72px;
+  width: 100%;
+}
+
+.nav_dark {
+  background: rgba(0, 0, 0);
+  color: rgb(255, 255, 255);
+}
+
+.nav_light {
+  background: rgba(255, 255, 255);
+  color: black;
+}
+
+.nav_transparent {
+  background: transparent;
+  color: #fff;
+}
