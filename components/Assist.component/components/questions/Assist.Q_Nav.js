@@ -8,7 +8,13 @@ import Styles from "../../assist.module.css";
 import { go_to_previous } from "../../../../store/actions/assist";
 
 const Index = props => {
-  const { qNumber, onClick, questionHistory, go_to_previous } = props;
+  const {
+    qNumber,
+    onClick,
+    questionHistory,
+    go_to_previous,
+    diabledNextButton,
+  } = props;
 
   const onGoToPrevious = () => {
     go_to_previous({
@@ -30,7 +36,12 @@ const Index = props => {
         </Button>
       )}
 
-      <Button size="small" variant="contained" onClick={() => onClick()}>
+      <Button
+        size="small"
+        variant="contained"
+        onClick={() => onClick()}
+        disabled={diabledNextButton ? diabledNextButton : false}
+      >
         NEXT
       </Button>
     </div>

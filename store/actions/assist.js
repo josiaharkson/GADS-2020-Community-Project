@@ -8,6 +8,7 @@ const {
   GO_TO_Q6,
   GO_TO_Q7,
   GO_TO_Q8,
+  GO_TO_FEEDBACK_REPORT,
   GO_TO_PREVIOUS,
   SET_ISLOADING_TRUE,
   SET_ISLOADING_FALSE,
@@ -39,7 +40,6 @@ export const jump_to_Q6 = () => dispatch => {
   // 1 ===>  push Q6 to the router history and then
   // 2 ===>  if Q3, Q4, and Q5 are already in the rooter, remove them from the router
   // 3 ===>  if Q3, Q4, and Q5 already have value in their respective arrays, remove them from the arrays, so Q3, Q4, and Q5 will have empty arrays
-  console.log(55454545454);
 
   dispatch({
     type: SET_ISLOADING_TRUE,
@@ -155,7 +155,6 @@ export const go_to_Q5 = data => dispatch => {
 };
 
 export const go_to_Q6 = data => dispatch => {
-  console.log(22332232323);
   dispatch({
     type: SET_ISLOADING_TRUE,
   });
@@ -200,6 +199,25 @@ export const go_to_Q8 = data => dispatch => {
 
   dispatch({
     type: GO_TO_Q8,
+    payload: data,
+  });
+
+  setTimeout(
+    () =>
+      dispatch({
+        type: SET_ISLOADING_FALSE,
+      }),
+    2000
+  );
+};
+
+export const go_to_Feedback_Report = data => dispatch => {
+  dispatch({
+    type: SET_ISLOADING_TRUE,
+  });
+
+  dispatch({
+    type: GO_TO_FEEDBACK_REPORT,
     payload: data,
   });
 

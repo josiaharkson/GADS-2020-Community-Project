@@ -7,7 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import Radio from "@material-ui/core/Radio";
 
 import Styles from "../../assist.module.css";
-import { go_to_Q8 } from "../../../../store/actions/assist";
+import { go_to_Feedback_Report } from "../../../../store/actions/assist";
 
 import AssisQ_Nav from "./Assist.Q_Nav";
 
@@ -42,21 +42,55 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Index = () => {
+const Index = props => {
   const classes = useStyles();
   const [keyValue, setKeyValue] = React.useState("");
+  const [patternOfInjecting, setPatternOfInjecting] = React.useState("");
+  const [diabledNextButton, setDiabledNextButton] = React.useState(true);
 
   const handleChange = value => {
     setKeyValue(value);
   };
 
   const onProceed = () => {
-    console.log({ keyValue });
+    let pattern = "";
+
+    if (
+      patternOfInjecting === "Once weekly or less" ||
+      patternOfInjecting === "Fewer than 3 days in a row"
+    )
+      pattern = "Brief Intervention";
+
+    if (
+      patternOfInjecting === "More than once per week" ||
+      patternOfInjecting === "3 or more days in a row"
+    )
+      pattern = "More Intensive Treatment";
+
+    props.go_to_Feedback_Report({
+      usedDrugByInjection: keyValue,
+      patternOfInjecting: pattern,
+    });
   };
+
+  React.useEffect(() => {
+    if (diabledNextButton) {
+      if (keyValue !== "") setDiabledNextButton(false);
+    }
+
+    if (keyValue === "0") setPatternOfInjecting("");
+
+    if (keyValue !== "0" && patternOfInjecting === "")
+      setDiabledNextButton(true);
+  }, [keyValue, patternOfInjecting]);
 
   return (
     <div className={Styles.body}>
-      <AssisQ_Nav qNumber={8} onClick={() => onProceed()} />
+      <AssisQ_Nav
+        qNumber={8}
+        onClick={() => onProceed()}
+        diabledNextButton={diabledNextButton}
+      />
       <Paper elevation={10} className={Styles.body_2}>
         <Divider />
         <TableContainer component={Paper}>
@@ -146,10 +180,68 @@ const Index = () => {
               </TableRow>
             </TableBody>
           </Table>
+
+          {keyValue === "1" || keyValue === "2" ? (
+            <div style={{ padding: 30 }}>
+              <h3>Pattern of Injecting?</h3>
+
+              <div>
+                <Radio
+                  size="small"
+                  checked={patternOfInjecting === "Once weekly or less"}
+                  onChange={e => setPatternOfInjecting(e.target.value)}
+                  value="Once weekly or less"
+                  name="Yes, but not in the past 3 months"
+                  inputProps={{ "aria-label": Math.random() }}
+                  id="ppp2"
+                />
+                <label htmlFor="ppp2">Once weekly or less</label>
+              </div>
+
+              <div>
+                <Radio
+                  size="small"
+                  checked={patternOfInjecting === "Fewer than 3 days in a row"}
+                  onChange={e => setPatternOfInjecting(e.target.value)}
+                  value="Fewer than 3 days in a row"
+                  name="Yes, but not in the past 3 months"
+                  inputProps={{ "aria-label": Math.random() }}
+                  id="ppp3"
+                />
+                <label htmlFor="ppp3">Fewer than 3 days in a row </label>
+              </div>
+
+              <div>
+                <Radio
+                  size="small"
+                  checked={patternOfInjecting === "More than once per week"}
+                  onChange={e => setPatternOfInjecting(e.target.value)}
+                  value="More than once per week"
+                  name="Yes, but not in the past 3 months"
+                  inputProps={{ "aria-label": Math.random() }}
+                  id="ppp1"
+                />
+                <label htmlFor="ppp1">More than once per week </label>
+              </div>
+
+              <div>
+                <Radio
+                  size="small"
+                  checked={patternOfInjecting === "3 or more days in a row"}
+                  onChange={e => setPatternOfInjecting(e.target.value)}
+                  value="3 or more days in a row"
+                  name="Yes, but not in the past 3 months"
+                  inputProps={{ "aria-label": Math.random() }}
+                  id="ppp4"
+                />
+                <label htmlFor="ppp4">3 or more days in a row</label>
+              </div>
+            </div>
+          ) : null}
         </TableContainer>
       </Paper>
     </div>
   );
 };
 
-export default connect(null, { go_to_Q8 })(Index);
+export default connect(null, { go_to_Feedback_Report })(Index);

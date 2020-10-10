@@ -12,6 +12,7 @@ const {
   GO_TO_PREVIOUS,
   SET_ISLOADING_TRUE,
   SET_ISLOADING_FALSE,
+  GO_TO_FEEDBACK_REPORT,
 } = ASSIST_TYPES;
 
 const initialState = {
@@ -25,35 +26,41 @@ const initialState = {
       name: "Tobacco products (cigarettes, chewing tobacco, cigars, etc.) ",
     },
     { id: "B", name: "Alcoholic beverages (beer, wine, spirits, etc.) " },
-    { id: "C", name: "Cannabis (marijuana, pot, grass, hash, etc.) " },
-    { id: "D", name: "Cocaine (coke, crack, etc.) " },
+    { id: "C", name: "Cannabis (marijuana, pot, grass, hash, etc.)" },
+    { id: "D", name: "Cocaine (coke, crack, etc.)" },
     {
       id: "E",
-      name: "Amphetamine type stimulants (speed, diet pills, ecstasy, etc.) ",
+      name: "Amphetamine type stimulants (speed, diet pills, ecstasy, etc.)",
     },
     {
       id: "F",
-      name: " Inhalants (nitrous, glue, petrol, paint thinner, etc.) ",
+      name: "Inhalants (nitrous, glue, petrol, paint thinner, etc.",
     },
     {
       id: "G",
-      name: "Sedatives or Sleeping Pills (Valium, Serepax, Rohypnol, etc.) ",
+      name: "Sedatives or Sleeping Pills (Valium, Serepax, Rohypnol, etc.)",
     },
     {
       id: "H",
-      name: " Hallucinogens (LSD, acid, mushrooms, PCP, Special K, etc.) ",
+      name: "Hallucinogens (LSD, acid, mushrooms, PCP, Special K, etc.)",
     },
-    { id: "I", name: "Opioids (heroin, morphine, methadone, codeine, etc.) " },
+    { id: "I", name: "Opioids (heroin, morphine, methadone, codeine, etc.)" },
   ],
 
   questionHistory: ["Q_1", "home"],
-  selectedSubstances_Q_1: [],
-  selectedSubstances_Q_2: [],
-  selectedSubstances_Q_3: [],
-  selectedSubstances_Q_4: [],
-  selectedSubstances_Q_5: [],
-  selectedSubstances_Q_6: [],
-  selectedSubstances_Q_7: [],
+  answers: {
+    selectedSubstances_Q_1: [],
+    selectedSubstances_Q_2: [],
+    selectedSubstances_Q_3: [],
+    selectedSubstances_Q_4: [],
+    selectedSubstances_Q_5: [],
+    selectedSubstances_Q_6: [],
+    selectedSubstances_Q_7: [],
+    selectedSubstances_Q_8: {
+      usedDrugByInjection: "",
+      patternOfInjecting: "",
+    },
+  },
 };
 
 const AssistReducer = (state = initialState, { type, payload }) => {
@@ -75,6 +82,7 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.shift();
       return {
         ...state,
+
         questionHistory,
       };
 
@@ -83,7 +91,11 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.unshift("Q_2");
       return {
         ...state,
-        selectedSubstances_Q_1: payload,
+
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_1: payload,
+        },
         questionHistory,
       };
     }
@@ -94,10 +106,13 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
 
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_3: [],
+          selectedSubstances_Q_4: [],
+          selectedSubstances_Q_5: [],
+        },
         questionHistory,
-        selectedSubstances_Q_3: [],
-        selectedSubstances_Q_4: [],
-        selectedSubstances_Q_5: [],
       };
     }
 
@@ -106,8 +121,12 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.unshift("Q_3");
       return {
         ...state,
-        selectedSubstances_Q_2: payload,
+
         questionHistory,
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_2: payload,
+        },
       };
     }
 
@@ -116,7 +135,11 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.unshift("Q_4");
       return {
         ...state,
-        selectedSubstances_Q_3: payload,
+
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_3: payload,
+        },
         questionHistory,
       };
     }
@@ -126,7 +149,11 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.unshift("Q_5");
       return {
         ...state,
-        selectedSubstances_Q_4: payload,
+
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_4: payload,
+        },
         questionHistory,
       };
     }
@@ -136,7 +163,11 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.unshift("Q_6");
       return {
         ...state,
-        selectedSubstances_Q_5: payload,
+
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_5: payload,
+        },
         questionHistory,
       };
     }
@@ -146,7 +177,11 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.unshift("Q_7");
       return {
         ...state,
-        selectedSubstances_Q_6: payload,
+
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_6: payload,
+        },
         questionHistory,
       };
     }
@@ -156,7 +191,25 @@ const AssistReducer = (state = initialState, { type, payload }) => {
       questionHistory.unshift("Q_8");
       return {
         ...state,
-        selectedSubstances_Q_7: payload,
+
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_7: payload,
+        },
+        questionHistory,
+      };
+    }
+
+    case GO_TO_FEEDBACK_REPORT: {
+      const questionHistory = [...state.questionHistory];
+      questionHistory.unshift("Feedback_Report");
+      return {
+        ...state,
+
+        answers: {
+          ...state.answers,
+          selectedSubstances_Q_8: payload,
+        },
         questionHistory,
       };
     }

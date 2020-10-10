@@ -47,7 +47,7 @@ const makeArray = arr => {
   const data = {};
   arr.map(item => {
     const { id, name } = item;
-    data[id] = { id, name, Q2_value: "0", Q2_name: "Never" };
+    data[id] = { id, name, value: "0", Q2_name: "Never" };
   });
 
   return data;
@@ -64,7 +64,7 @@ const Index = props => {
     setKeys(x => {
       let all = x;
 
-      all[id].Q2_value = value;
+      all[id].value = value;
       all[id].Q2_name = name;
 
       return { ...all };
@@ -76,7 +76,7 @@ const Index = props => {
 
     const data = [];
     allId.map(id => {
-      if (keys[id].Q2_value !== "0") data.push(keys[id]);
+      if (keys[id].value !== "0") data.push(keys[id]);
       return;
     });
 
@@ -143,7 +143,7 @@ const Index = props => {
             </TableHead>
             <TableBody>
               {selectedSubstances_Q_2.map((item, index) => {
-                const keyValue = keys[item.id].Q2_value;
+                const keyValue = keys[item.id].value;
                 return (
                   <TableRow key={item.id}>
                     <TableCell padding="checkbox">{index + 1}</TableCell>
@@ -240,7 +240,7 @@ const Index = props => {
 };
 
 const mapPropsToComponent = store => ({
-  selectedSubstances_Q_2: store.assist.selectedSubstances_Q_2,
+  selectedSubstances_Q_2: store.assist.answers.selectedSubstances_Q_2,
 });
 
 export default connect(mapPropsToComponent, { go_to_Q4 })(Index);
